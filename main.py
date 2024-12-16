@@ -2,6 +2,10 @@ from funciones.funciones_database import *
 from funciones.funciones_menu import *
 import os
 
+# Se declara como constantes la cantidad mínima y el precio mínimo
+minima_cantidad = 1
+minimo_precio = 0.01
+
 # Función pricipal de la aplicación main()
 def main():
 
@@ -25,11 +29,11 @@ def main():
         opcion_seleccionada = mostrar_menu_opciones()
         # Se llama a las diferentes funciones según la opción ingresada
         if opcion_seleccionada == "1":
-            agregar_producto_menu()
+            agregar_producto_menu(minima_cantidad, minimo_precio)
         elif opcion_seleccionada == "2":
             mostrar_productos_menu(opcion_seleccionada)
         elif opcion_seleccionada == "3":
-            actualizar_cantidad_producto_menu(opcion_seleccionada)
+            actualizar_cantidad_producto_menu(opcion_seleccionada, minima_cantidad)
         elif opcion_seleccionada == "4":
             eliminar_producto_menu(opcion_seleccionada)
         elif opcion_seleccionada == "5":

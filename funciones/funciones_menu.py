@@ -29,7 +29,7 @@ def mostrar_menu_opciones()-> str:
     return opcion_seleccionada
 
 # Función que agrega un producto a la base de datos.
-def agregar_producto_menu():
+def agregar_producto_menu(minima_cantidad, minimo_precio):
     producto_cargado = False
 
     # Se piden los datos y se validan los mismos
@@ -37,8 +37,8 @@ def agregar_producto_menu():
     nombre = validar_cadena(input(Fore.RESET + "Ingrese el nombre del producto: ").capitalize(), "Error. Ingrese el nombre del producto: ")
     descripcion = input("Ingrese la descripcion del producto: ").capitalize()
     categoria = validar_cadena(input("Ingrese la categoria del producto: ").capitalize(), "Error. Ingrese la categoría del producto: ")
-    cantidad = validar_numero_entero(input("Ingrese la cantidad del producto: "), "Error. Ingrese la cantidad del producto: ")
-    precio = validar_numero_flotante(input("Ingrese el precio del producto: "), "Error. Ingrese el precio del producto: ")
+    cantidad = validar_numero_entero(input("Ingrese la cantidad del producto: "), "Error. Ingrese la cantidad del producto: ", minima_cantidad)
+    precio = validar_numero_flotante(input("Ingrese el precio del producto: "), "Error. Ingrese el precio del producto: ", minimo_precio)
 
     # Se crea un objeto "producto" con los datos ingresados
     producto = {
@@ -66,7 +66,7 @@ def agregar_producto_menu():
 
 # Función que muestra los productos cargados en la base de datos.
 # Si no hay productos cargados aún, se informa tal situación
-def mostrar_productos_menu(opcion_seleccionada)-> None|str:
+def mostrar_productos_menu(opcion_seleccionada: str)-> None|str:
     lista_productos = obtener_productos_db()
 
     valor_retornado = None
@@ -85,7 +85,7 @@ def mostrar_productos_menu(opcion_seleccionada)-> None|str:
     return valor_retornado
 
 # Función que elimina un producto
-def eliminar_producto_menu(opcion_seleccionada):
+def eliminar_producto_menu(opcion_seleccionada: str):
     producto_encontrado = False
     producto_eliminado = False
 
@@ -113,7 +113,7 @@ def eliminar_producto_menu(opcion_seleccionada):
             os.system(cadena_limpiar_consola)
             eliminar_producto_menu(opcion_seleccionada)
 
-def actualizar_cantidad_producto_menu(opcion_seleccionada):
+def actualizar_cantidad_producto_menu(opcion_seleccionada: str, minimo: int):
     producto_encontrado = False
     producto_actualizado = False
     
@@ -125,7 +125,7 @@ def actualizar_cantidad_producto_menu(opcion_seleccionada):
         opcion_actualizar = input("¿Está seguro de querer modificar la cantidad del producto seleccionado? S/N ").lower()
         if opcion_actualizar == "s":
             os.system(cadena_limpiar_consola)
-            cantidad_nueva = int(input(f"{producto_encontrado[1]} --> Cantidad actual: {producto_encontrado[4]}\nIngrese la nueva cantidad: "))
+            cantidad_nueva = validar_numero_entero(input(f"{producto_encontrado[1]} --> Cantidad actual: {producto_encontrado[4]}\nIngrese la nueva cantidad: "), "Error. Ingrese la cantidad del producto: ", minimo)
             producto_actualizado = actualizar_cantidad_producto_db(id, cantidad_nueva)
 
     if producto_actualizado:
