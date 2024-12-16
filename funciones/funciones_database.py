@@ -23,7 +23,7 @@ def crear_tabla_productos_dt():
 
 def insertar_producto_dt(producto)-> bool:
     producto_insertado = False
-
+    print("en db = ",type(producto["Nombre"]))
     try:
         conexion = sqlite3.connect(ruta_db)
         cursor = conexion.cursor()
@@ -38,7 +38,7 @@ def insertar_producto_dt(producto)-> bool:
         cursor.execute(query, placeholders)
         conexion.commit()
         producto_insertado = True
-    except sqlite3.Error as error:
+    except sqlite3.IntegrityError as error:
         print(f"Error al insertar el producto: {error}")
     finally:
         conexion.close()
@@ -84,7 +84,7 @@ def eliminar_producto_db(id)-> bool:
         conexion = sqlite3.connect(ruta_db)
         cursor = conexion.cursor()
         query = "DELETE FROM productos WHERE Id = ?"
-        placeholders = (id)
+        placeholders = (id,)
         cursor.execute(query, placeholders)
         conexion.commit()
         producto_eliminado = True

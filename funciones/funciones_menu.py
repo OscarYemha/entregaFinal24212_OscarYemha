@@ -1,4 +1,5 @@
 from funciones.funciones_database import *
+from funciones.funciones_validacion import *
 from tabulate import tabulate
 from colorama import *
 import os
@@ -29,11 +30,11 @@ def agregar_producto_menu():
     producto_cargado = False
 
     print(Fore.CYAN + "Ingrese los siguientes datos del producto: ")
-    nombre = input(Fore.RESET + "Ingrese el nombre del producto: ").capitalize()
+    nombre = validar_cadena(input(Fore.RESET + "Ingrese el nombre del producto: ").capitalize(), "Error. Ingrese el nombre del producto: ")
     descripcion = input("Ingrese la descripcion del producto: ").capitalize()
-    categoria = input("Ingrese la categoria del producto: ").capitalize()
-    cantidad = input("Ingrese la cantidad del producto: ")
-    precio = input("Ingrese el precio del producto: ")
+    categoria = validar_cadena(input("Ingrese la categoria del producto: ").capitalize(), "Error. Ingrese la categoría del producto: ")
+    cantidad = validar_numero_entero(input("Ingrese la cantidad del producto: "), "Error. Ingrese la cantidad del producto: ")
+    precio = validar_numero_flotante(input("Ingrese el precio del producto: "), "Error. Ingrese el precio del producto: ")
 
     producto = {
         "Nombre": nombre,
@@ -82,9 +83,11 @@ def eliminar_producto_menu(opcion_seleccionada):
             producto_eliminado = eliminar_producto_db(id)
             
     if producto_eliminado:
-        input(Back.RED + Fore.BLACK + Style.BRIGHT + f"El producto({producto_encontrado[1]}) fue eliminado. Presione Enter para volver continuar... " + Back.RESET + Fore.RESET + Style.RESET_ALL)
+        opcion_seguir_eliminando = input(Back.RED + Fore.BLACK + Style.BRIGHT + f"El producto({producto_encontrado[1]}) fue eliminado. ¿Desea eliminar otro producto? S/N: " + Back.RESET + Fore.RESET + Style.RESET_ALL).lower()
+        if opcion_seguir_eliminando == "s":
+            eliminar_producto_menu(opcion_seleccionada)
     else:
-        input(Back.RED + Fore.BLACK + Style.BRIGHT + f"El producto no pudo ser eliminado. Presione Enter para continuar... " + Back.RESET + Fore.RESET + Style.RESET_ALL)   
+        input(Back.RED + Fore.BLACK + Style.BRIGHT + f"El producto no pudo ser eliminado. Presione Enter para continuar... " + Back.RESET + Fore.RESET + Style.RESET_ALL)
 
 def actualizar_cantidad_producto_menu(opcion_seleccionada):
     producto_encontrado = False
@@ -102,7 +105,9 @@ def actualizar_cantidad_producto_menu(opcion_seleccionada):
             producto_actualizado = actualizar_cantidad_producto_db(id, cantidad_nueva)
 
     if producto_actualizado:
-        input(Back.RED + Fore.BLACK + Style.BRIGHT + f"La cantidad del producto ({producto_encontrado[1]}) fue actualizada. Presione Enter para continuar... " + Back.RESET + Fore.RESET + Style.RESET_ALL)
+        seguir_actualizando_cantidad = input(Back.RED + Fore.BLACK + Style.BRIGHT + f"La cantidad del producto ({producto_encontrado[1]}) fue actualizada. ¿Desea modificar la cantidad de otro producto? S/N:  " + Back.RESET + Fore.RESET + Style.RESET_ALL).lower()
+        if seguir_actualizando_cantidad == "s":
+            actualizar_cantidad_producto_menu(opcion_seleccionada)
     else:
         input(Back.RED + Fore.BLACK + Style.BRIGHT + f"El producto no pudo ser encontrado. Presione Enter para continuar... " + Back.RESET + Fore.RESET + Style.RESET_ALL)
 
