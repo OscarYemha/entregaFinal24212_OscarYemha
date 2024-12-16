@@ -50,7 +50,7 @@ def agregar_producto_menu():
     else:
         input(Back.RED + Fore.BLACK + Style.BRIGHT + "El producto no pudo ser cargado. Presione Enter para continuar... " + Back.RESET + Fore.RESET + Style.RESET_ALL)
 
-def mostrar_productos_menu(opcion_seleccionada) -> None|str:
+def mostrar_productos_menu(opcion_seleccionada)-> None|str:
     lista_productos = obtener_productos_db()
 
     valor_retornado = None
@@ -110,44 +110,56 @@ def actualizar_cantidad_producto_menu(opcion_seleccionada):
 def buscar_producto_menu():
     opcion_elegida = input("Para buscar por Id ingrese 1.\nPara buscar por Nombre ingrese 2.\nPara buscar por Categoría ingrese 3.\nIngrese la opción: ")
 
-    producto_obtenido = None
+    productos_obtenidos = None
     os.system(cadena_limpiar_consola)
 
     if opcion_elegida == "1":
         id = int(input("Ingrese el Id a buscar: "))
-        producto_obtenido = buscar_producto_por_id_db(id)
+        productos_obtenidos = buscar_producto_por_id_db(id)
 
-        if producto_obtenido:
+        if productos_obtenidos:
             os.system(cadena_limpiar_consola)
             encabezados = ["Id", "Nombre", "Descripción", "Categoría", "Cantidad", "Precio"]
             print("Se encontró el siguiente producto: ")
-            print(tabulate([producto_obtenido], headers=encabezados, tablefmt='fancy_grid'))
+            print(tabulate([productos_obtenidos], headers=encabezados, tablefmt='fancy_grid'))
             input("\nPresione Enter para continuar... ")
         else:
             input(Back.RED + Fore.BLACK + Style.BRIGHT + f"El producto no pudo ser encontrado. Presione Enter para continuar... " + Back.RESET + Fore.RESET + Style.RESET_ALL)
     elif opcion_elegida == "2":
         nombre = input("Ingrese el nombre a buscar: ").capitalize()
-        producto_obtenido = buscar_producto_por_nombre_db(nombre)
+        productos_obtenidos = buscar_producto_por_nombre_db(nombre)
 
-        if producto_obtenido:
+        if productos_obtenidos:
             os.system(cadena_limpiar_consola)
             encabezados = ["Id", "Nombre", "Descripción", "Categoría", "Cantidad", "Precio"]
             print("Se encontró el siguiente producto: ")
-            print(tabulate([producto_obtenido], headers=encabezados, tablefmt='fancy_grid'))
+            print(tabulate(productos_obtenidos[0], headers = productos_obtenidos[1], tablefmt="fancy_grid"))
             input("\nPresione Enter para continuar... ")
         else:
             input(Back.RED + Fore.BLACK + Style.BRIGHT + f"El producto no pudo ser encontrado. Presione Enter para continuar... " + Back.RESET + Fore.RESET + Style.RESET_ALL)
     elif opcion_elegida == "3":
         categoria = input("Ingrese la categoría a buscar: ").capitalize()
-        producto_obtenido = buscar_producto_por_categoria_db(categoria)
+        productos_obtenidos = buscar_producto_por_categoria_db(categoria)
         
-        if producto_obtenido:
+        if productos_obtenidos:
             os.system(cadena_limpiar_consola)
             encabezados = ["Id", "Nombre", "Descripción", "Categoría", "Cantidad", "Precio"]
             print("Se encontró el siguiente producto: ")
-            print(tabulate([producto_obtenido], headers=encabezados, tablefmt='fancy_grid'))
+            print(tabulate(productos_obtenidos[0], headers = productos_obtenidos[1], tablefmt="fancy_grid"))
             input("\nPresione Enter para continuar... ")
         else:
             input(Back.RED + Fore.BLACK + Style.BRIGHT + f"El producto no pudo ser encontrado. Presione Enter para continuar... " + Back.RESET + Fore.RESET + Style.RESET_ALL)
     else:
         input(Back.RED + Fore.BLACK + Style.BRIGHT + "Opción no válida. Presione Enter para continuar... " + Back.RESET + Fore.RESET + Style.RESET_ALL)
+
+def buscar_producto_por_baja_cantidad_menu():
+    cantidad_indicada = int(input("Buscar productos con un stock menor o igual a: "))
+    productos_obtenidos = buscar_producto_por_baja_cantidad_db(cantidad_indicada)
+   
+    if productos_obtenidos[0]:
+        os.system(cadena_limpiar_consola)
+        print("Se encontró lo siguiente: ")
+        print(tabulate(productos_obtenidos[0], headers = productos_obtenidos[1], tablefmt="fancy_grid"), "\n")
+        input("Presione Enter para volver al menú... ")
+    else:
+        input(Back.RED + Fore.BLACK + Style.BRIGHT + f"No se han encontrado productos con un stock menor o igual a {cantidad_indicada}. Presione Enter para continuar... " + Back.RESET + Fore.RESET + Style.RESET_ALL)

@@ -46,6 +46,7 @@ def insertar_producto_dt(producto)-> bool:
     return producto_insertado
 
 def obtener_productos_db()-> list:
+    lista_productos = None
     try:
         conexion = sqlite3.connect(ruta_db)
         cursor = conexion.cursor()
@@ -119,13 +120,15 @@ def buscar_producto_por_nombre_db(nombre)-> tuple:
         query = "SELECT * FROM productos WHERE Nombre = ?"
         placeholders = (nombre, )
         cursor.execute(query, placeholders)
-        producto = cursor.fetchone()
+        filas = cursor.fetchall()
+        columnas = [description[0] for description in cursor.description]
+        lista_productos = [filas, columnas]
     except sqlite3.Error as error:
-        print(f"Producto no encontrado: {error}")
+        print(f"Nombre no encontrado: {error}")
     finally:
         conexion.close()
 
-    return producto
+    return lista_productos
 
 def buscar_producto_por_categoria_db(categoria)-> tuple:
     try:
@@ -134,10 +137,30 @@ def buscar_producto_por_categoria_db(categoria)-> tuple:
         query = "SELECT * FROM productos WHERE Categoria = ?"
         placeholders = (categoria, )
         cursor.execute(query, placeholders)
-        producto = cursor.fetchone()
+        filas = cursor.fetchall()
+        columnas = [description[0] for description in cursor.description]
+        lista_productos = [filas, columnas]
     except sqlite3.Error as error:
-        print(f"Producto no encontrado: {error}")
+        print(f"Categoría no encontrada: {error}")
     finally:
         conexion.close()
 
-    return producto
+    return lista_productos
+
+def buscar_producto_por_baja_cantidad_db(cantidad)-> tuple:
+    lista_productos = None
+    try:
+        conexion = sqlite3.connect(ruta_db)
+        cursor = conexion.cursor()
+        query = "SELECT * FROM productos WHERE Cantidad <= ?"
+        placeholders = (cantidad, )
+        cursor.execute(query, placeholders)
+        filas = cursor.fetchall()
+        columnas = [description[0] for description in cursor.description]
+        lista_productos = [filas, columnas]
+    except sqlite3.Error as error:
+        print(f"Productos no encontrados: {error}")
+    finally:
+        conexion.close()
+
+    return lista_productos

@@ -33,7 +33,7 @@ def main():
         elif opcion_seleccionada == "5":
             buscar_producto_menu()
         elif opcion_seleccionada == "6":
-            pass
+            buscar_producto_por_baja_cantidad_menu()
         elif opcion_seleccionada == "7":
             os.system(cadena_limpiar_consola)
             input("Gracias por utilizar esta aplicación. Presione Enter para finalizar... ")
