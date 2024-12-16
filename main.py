@@ -2,12 +2,13 @@ from funciones.funciones_database import *
 from funciones.funciones_menu import *
 import os
 
+# Función pricipal de la aplicación main()
 def main():
 
-    crear_tabla_productos_dt()
+    crear_tabla_productos_dt() # Se crea la tabla si no existe
 
+    # Verificamos sistema operativo para limpiar consola y generar una mejor experiencia visual al usuario
     sistema_operativo_utilizado = os.name
-
     cadena_limpiar_consola = ""
     if sistema_operativo_utilizado == "nt":
         cadena_limpiar_consola = "cls"
@@ -20,8 +21,9 @@ def main():
     while mostrar_menu:
         os.system(cadena_limpiar_consola)
         
+        # Se muestra el menú y la función regresa la opción ingresada
         opcion_seleccionada = mostrar_menu_opciones()
-
+        # Se llama a las diferentes funciones según la opción ingresada
         if opcion_seleccionada == "1":
             agregar_producto_menu()
         elif opcion_seleccionada == "2":
