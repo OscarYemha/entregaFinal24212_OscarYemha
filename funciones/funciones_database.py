@@ -23,7 +23,7 @@ def crear_tabla_productos_dt():
 
 def insertar_producto_dt(producto)-> bool:
     producto_insertado = False
-    print("en db = ",type(producto["Nombre"]))
+
     try:
         conexion = sqlite3.connect(ruta_db)
         cursor = conexion.cursor()

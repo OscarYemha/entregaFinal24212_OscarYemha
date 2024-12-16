@@ -47,7 +47,10 @@ def agregar_producto_menu():
     producto_cargado = insertar_producto_dt(producto)
 
     if producto_cargado:
-        input(Back.RED + Fore.BLACK + Style.BRIGHT + "Producto cargado exitosamente. Presione Enter para continuar... " + Back.RESET + Fore.RESET + Style.RESET_ALL)
+        opcion_seguir_cargando_producto = input(Back.RED + Fore.BLACK + Style.BRIGHT + "Producto cargado exitosamente. ¿Desea cargar otro producto? S/N: " + Back.RESET + Fore.RESET + Style.RESET_ALL).lower()
+        if opcion_seguir_cargando_producto == "s":
+            os.system(cadena_limpiar_consola)
+            agregar_producto_menu()
     else:
         input(Back.RED + Fore.BLACK + Style.BRIGHT + "El producto no pudo ser cargado. Presione Enter para continuar... " + Back.RESET + Fore.RESET + Style.RESET_ALL)
 
@@ -83,8 +86,9 @@ def eliminar_producto_menu(opcion_seleccionada):
             producto_eliminado = eliminar_producto_db(id)
             
     if producto_eliminado:
-        opcion_seguir_eliminando = input(Back.RED + Fore.BLACK + Style.BRIGHT + f"El producto({producto_encontrado[1]}) fue eliminado. ¿Desea eliminar otro producto? S/N: " + Back.RESET + Fore.RESET + Style.RESET_ALL).lower()
-        if opcion_seguir_eliminando == "s":
+        opcion_seguir_eliminando_producto = input(Back.RED + Fore.BLACK + Style.BRIGHT + f"El producto({producto_encontrado[1]}) fue eliminado. ¿Desea eliminar otro producto? S/N: " + Back.RESET + Fore.RESET + Style.RESET_ALL).lower()
+        if opcion_seguir_eliminando_producto == "s":
+            os.system(cadena_limpiar_consola)
             eliminar_producto_menu(opcion_seleccionada)
     else:
         input(Back.RED + Fore.BLACK + Style.BRIGHT + f"El producto no pudo ser eliminado. Presione Enter para continuar... " + Back.RESET + Fore.RESET + Style.RESET_ALL)
@@ -105,8 +109,9 @@ def actualizar_cantidad_producto_menu(opcion_seleccionada):
             producto_actualizado = actualizar_cantidad_producto_db(id, cantidad_nueva)
 
     if producto_actualizado:
-        seguir_actualizando_cantidad = input(Back.RED + Fore.BLACK + Style.BRIGHT + f"La cantidad del producto ({producto_encontrado[1]}) fue actualizada. ¿Desea modificar la cantidad de otro producto? S/N:  " + Back.RESET + Fore.RESET + Style.RESET_ALL).lower()
-        if seguir_actualizando_cantidad == "s":
+        opcion_seguir_actualizando_cantidad = input(Back.RED + Fore.BLACK + Style.BRIGHT + f"La cantidad del producto ({producto_encontrado[1]}) fue actualizada. ¿Desea modificar la cantidad de otro producto? S/N:  " + Back.RESET + Fore.RESET + Style.RESET_ALL).lower()
+        if opcion_seguir_actualizando_cantidad == "s":
+            os.system(cadena_limpiar_consola)
             actualizar_cantidad_producto_menu(opcion_seleccionada)
     else:
         input(Back.RED + Fore.BLACK + Style.BRIGHT + f"El producto no pudo ser encontrado. Presione Enter para continuar... " + Back.RESET + Fore.RESET + Style.RESET_ALL)
@@ -127,7 +132,6 @@ def buscar_producto_menu():
             encabezados = ["Id", "Nombre", "Descripción", "Categoría", "Cantidad", "Precio"]
             print("Se encontró el siguiente producto: ")
             print(tabulate([productos_obtenidos], headers=encabezados, tablefmt='fancy_grid'))
-            input("\nPresione Enter para continuar... ")
         else:
             input(Back.RED + Fore.BLACK + Style.BRIGHT + f"El producto no pudo ser encontrado. Presione Enter para continuar... " + Back.RESET + Fore.RESET + Style.RESET_ALL)
     elif opcion_elegida == "2":
@@ -139,7 +143,6 @@ def buscar_producto_menu():
             encabezados = ["Id", "Nombre", "Descripción", "Categoría", "Cantidad", "Precio"]
             print("Se encontró el siguiente producto: ")
             print(tabulate(productos_obtenidos[0], headers = productos_obtenidos[1], tablefmt="fancy_grid"))
-            input("\nPresione Enter para continuar... ")
         else:
             input(Back.RED + Fore.BLACK + Style.BRIGHT + f"El producto no pudo ser encontrado. Presione Enter para continuar... " + Back.RESET + Fore.RESET + Style.RESET_ALL)
     elif opcion_elegida == "3":
@@ -151,11 +154,17 @@ def buscar_producto_menu():
             encabezados = ["Id", "Nombre", "Descripción", "Categoría", "Cantidad", "Precio"]
             print("Se encontró el siguiente producto: ")
             print(tabulate(productos_obtenidos[0], headers = productos_obtenidos[1], tablefmt="fancy_grid"))
-            input("\nPresione Enter para continuar... ")
         else:
             input(Back.RED + Fore.BLACK + Style.BRIGHT + f"El producto no pudo ser encontrado. Presione Enter para continuar... " + Back.RESET + Fore.RESET + Style.RESET_ALL)
     else:
         input(Back.RED + Fore.BLACK + Style.BRIGHT + "Opción no válida. Presione Enter para continuar... " + Back.RESET + Fore.RESET + Style.RESET_ALL)
+
+
+    opcion_seguir_buscando = input("\n¿Desea buscar otro producto? S/N: ").lower()
+
+    if opcion_seguir_buscando == "s":
+        os.system(cadena_limpiar_consola)
+        buscar_producto_menu()
 
 def buscar_producto_por_baja_cantidad_menu():
     cantidad_indicada = int(input("Buscar productos con un stock menor o igual a: "))
@@ -163,7 +172,7 @@ def buscar_producto_por_baja_cantidad_menu():
    
     if productos_obtenidos[0]:
         os.system(cadena_limpiar_consola)
-        print("Se encontró lo siguiente: ")
+        print(f"Se encontró lo siguiente con un stock menor o igual a {cantidad_indicada}: ")
         print(tabulate(productos_obtenidos[0], headers = productos_obtenidos[1], tablefmt="fancy_grid"), "\n")
         input("Presione Enter para volver al menú... ")
     else:
