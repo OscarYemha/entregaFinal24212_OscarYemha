@@ -14,7 +14,7 @@ else:
 
 init()
 
-def mostrar_menu_opciones() -> str:
+def mostrar_menu_opciones()-> str:
 
     
     print(Fore.CYAN + "-" * 40)
