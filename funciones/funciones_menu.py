@@ -164,7 +164,7 @@ def buscar_producto_menu():
         if productos_obtenidos:
             os.system(cadena_limpiar_consola)
             encabezados = ["Id", "Nombre", "Descripción", "Categoría", "Cantidad", "Precio"]
-            print("Se encontró el siguiente producto: ")
+            print("Se encontró lo siguiente: ")
             print(tabulate([productos_obtenidos], headers=encabezados, tablefmt='fancy_grid'))
             
             # Se pregunta si se quiere seguir buscando
@@ -184,7 +184,7 @@ def buscar_producto_menu():
         if productos_obtenidos:
             os.system(cadena_limpiar_consola)
             encabezados = ["Id", "Nombre", "Descripción", "Categoría", "Cantidad", "Precio"]
-            print("Se encontró el siguiente producto: ")
+            print("Se encontró lo siguiente: ")
             print(tabulate(productos_obtenidos[0], headers = productos_obtenidos[1], tablefmt="fancy_grid"))
 
             opcion_seguir_buscando = input("\n¿Desea buscar otro producto? S/N: ").lower()
@@ -203,7 +203,7 @@ def buscar_producto_menu():
         if productos_obtenidos:
             os.system(cadena_limpiar_consola)
             encabezados = ["Id", "Nombre", "Descripción", "Categoría", "Cantidad", "Precio"]
-            print("Se encontró el siguiente producto: ")
+            print("Se encontró lo siguiente: ")
             print(tabulate(productos_obtenidos[0], headers = productos_obtenidos[1], tablefmt="fancy_grid"))
 
             opcion_seguir_buscando = input("\n¿Desea buscar otro producto? S/N: ").lower()
