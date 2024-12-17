@@ -157,14 +157,14 @@ def buscar_producto_menu():
 
     # De acuerdo a la opción seleccionada, se busca por Id, Nombre o Categoría
     if opcion_elegida == "1":
-        id = int(input("Ingrese el Id a buscar: "))
+        id = int(input("\nIngrese el Id a buscar: "))
         productos_obtenidos = buscar_producto_por_id_db(id)
 
         # Si se encuentran productos, se muestran en una tabla
         if productos_obtenidos:
             os.system(cadena_limpiar_consola)
-            encabezados = ["Id", "Nombre", "Descripción", "Categoría", "Cantidad", "Precio"]
             print("Se encontró lo siguiente: ")
+            encabezados = ["Id", "Nombre", "Descripción", "Categoría", "Cantidad", "Precio"]
             print(tabulate([productos_obtenidos], headers=encabezados, tablefmt='fancy_grid'))
             
             # Se pregunta si se quiere seguir buscando
@@ -181,10 +181,10 @@ def buscar_producto_menu():
         nombre = input("Ingrese el nombre a buscar: ").capitalize()
         productos_obtenidos = buscar_producto_por_nombre_db(nombre)
 
-        if productos_obtenidos:
+        if productos_obtenidos[0]:
             os.system(cadena_limpiar_consola)
-            encabezados = ["Id", "Nombre", "Descripción", "Categoría", "Cantidad", "Precio"]
             print("Se encontró lo siguiente: ")
+            
             print(tabulate(productos_obtenidos[0], headers = productos_obtenidos[1], tablefmt="fancy_grid"))
 
             opcion_seguir_buscando = input("\n¿Desea buscar otro producto? S/N: ").lower()
@@ -197,12 +197,17 @@ def buscar_producto_menu():
                 os.system(cadena_limpiar_consola)
                 buscar_producto_menu()
     elif opcion_elegida == "3":
-        categoria = input("Ingrese la categoría a buscar: ").capitalize()
+        # Se muestran las categorías guardadas
+        lista_categorias = mostrar_categorias_db()
+        lista_categorias_sin_duplicados = list(set(lista_categorias))
+        print(tabulate(lista_categorias_sin_duplicados, headers = [Style.BRIGHT + "CATEGORÍAS" + Style.RESET_ALL], tablefmt="fancy_grid"))
+
+        categoria = input("\nIngrese la categoría a buscar: ").capitalize()
         productos_obtenidos = buscar_producto_por_categoria_db(categoria)
         
-        if productos_obtenidos:
+        if productos_obtenidos[0]:
             os.system(cadena_limpiar_consola)
-            encabezados = ["Id", "Nombre", "Descripción", "Categoría", "Cantidad", "Precio"]
+            
             print("Se encontró lo siguiente: ")
             print(tabulate(productos_obtenidos[0], headers = productos_obtenidos[1], tablefmt="fancy_grid"))
 

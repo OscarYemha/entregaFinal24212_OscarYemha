@@ -181,3 +181,19 @@ def buscar_producto_por_baja_cantidad_db(cantidad)-> list:
         conexion.close()
 
     return lista_productos
+
+def mostrar_categorias_db()-> list:
+    categorias = None
+
+    try:
+        conexion = sqlite3.connect(ruta_db)
+        cursor = conexion.cursor()
+        query = "SELECT Categoria FROM productos"
+        cursor.execute(query)
+        categorias = cursor.fetchall()
+    except sqlite3.Error as error:
+        print(f"Productos no encontrados: {error}")
+    finally:
+        conexion.close()
+
+    return categorias
