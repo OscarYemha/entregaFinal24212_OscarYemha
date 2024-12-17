@@ -2,6 +2,7 @@ import sqlite3
 
 ruta_db = "entregaFinal_OscarYemha/inventario.db"
 
+# Función que crea la tabla "productos" si no existe
 def crear_tabla_productos_dt():
     try:
         conexion = sqlite3.connect(ruta_db)
@@ -20,7 +21,7 @@ def crear_tabla_productos_dt():
     finally:
         conexion.close()
 
-
+# Función que agrega un producto nuevo a la tabla recibido por parámetro y retorna un booleano indicando True si se agregó o False si no se agregó
 def insertar_producto_dt(producto)-> bool:
     producto_insertado = False
 
@@ -45,8 +46,10 @@ def insertar_producto_dt(producto)-> bool:
     
     return producto_insertado
 
+# Función que recupera todos los datos guardados en la tabla y los retorna en una lista
 def obtener_productos_db()-> list:
     lista_productos = None
+
     try:
         conexion = sqlite3.connect(ruta_db)
         cursor = conexion.cursor()
@@ -62,7 +65,10 @@ def obtener_productos_db()-> list:
 
     return lista_productos
 
+# Función que busca un producto de la tabla por Id recibido por parámetro y retorna una tupla si se encuentra o None si no lo hace
 def buscar_producto_por_id_db(id)-> tuple:
+    producto = None
+
     try:
         conexion = sqlite3.connect(ruta_db)
         cursor = conexion.cursor()
@@ -77,6 +83,7 @@ def buscar_producto_por_id_db(id)-> tuple:
 
     return producto
 
+# Función que recibe un Id por parámetro para buscar un producto y lo elimina si se encuentra. Retorna True si se elimina o False en caso contrario
 def eliminar_producto_db(id)-> bool:
     producto_eliminado = False
 
@@ -95,6 +102,8 @@ def eliminar_producto_db(id)-> bool:
 
     return producto_eliminado
 
+# Función que recibe un Id y una cantidad por parámetro para buscar y actualizar la cantidad de un producto específico.
+# Se buscar por Id el producto. Se retorna True si se actualizó el producto o False en caso contrario.
 def actualizar_cantidad_producto_db(id, cantidad_nueva)-> bool:
     producto_actualizado = False
 
@@ -113,7 +122,10 @@ def actualizar_cantidad_producto_db(id, cantidad_nueva)-> bool:
 
     return producto_actualizado
 
-def buscar_producto_por_nombre_db(nombre)-> tuple:
+# Función que busca un producto de la tabla por el nombre recibido por parámetro y retorna una lista si se encuentra o None si no lo hace
+def buscar_producto_por_nombre_db(nombre)-> list:
+    lista_productos = None
+
     try:
         conexion = sqlite3.connect(ruta_db)
         cursor = conexion.cursor()
@@ -130,7 +142,10 @@ def buscar_producto_por_nombre_db(nombre)-> tuple:
 
     return lista_productos
 
-def buscar_producto_por_categoria_db(categoria)-> tuple:
+# Función que busca un producto de la tabla por la categoría recibida por parámetro y retorna una lista si se encuentra o None si no lo hace
+def buscar_producto_por_categoria_db(categoria)-> list:
+    lista_productos = None
+
     try:
         conexion = sqlite3.connect(ruta_db)
         cursor = conexion.cursor()
@@ -147,8 +162,10 @@ def buscar_producto_por_categoria_db(categoria)-> tuple:
 
     return lista_productos
 
-def buscar_producto_por_baja_cantidad_db(cantidad)-> tuple:
+# # Función que busca los productos de la tabla según sea menor o igual a una cantidad recibida por parámetro. Retorna una lista si se encuentra o None si no lo hace
+def buscar_producto_por_baja_cantidad_db(cantidad)-> list:
     lista_productos = None
+
     try:
         conexion = sqlite3.connect(ruta_db)
         cursor = conexion.cursor()
