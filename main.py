@@ -1,6 +1,5 @@
 from funciones.funciones_database import *
 from funciones.funciones_menu import *
-import os
 
 # Se declara como constantes la cantidad mínima y el precio mínimo
 minima_cantidad = 1
@@ -9,21 +8,12 @@ minimo_precio = 0.01
 # Función pricipal de la aplicación main()
 def main():
 
-    crear_tabla_productos_dt() # Se crea la tabla si no existe
-
-    # Verificamos sistema operativo para limpiar consola y generar una mejor experiencia visual al usuario
-    sistema_operativo_utilizado = os.name
-    cadena_limpiar_consola = ""
-    if sistema_operativo_utilizado == "nt":
-        cadena_limpiar_consola = "cls"
-    else:
-        cadena_limpiar_consola = "clear"
-
     mostrar_menu = True
 
+    crear_tabla_productos_dt() # Se crea la tabla si no existe
     
     while mostrar_menu:
-        os.system(cadena_limpiar_consola)
+        limpiar_consola()
         
         # Se muestra el menú y la función regresa la opción ingresada
         opcion_seleccionada = mostrar_menu_opciones()
@@ -41,12 +31,12 @@ def main():
         elif opcion_seleccionada == "6":
             buscar_producto_por_baja_cantidad_menu()
         elif opcion_seleccionada == "7":
-            os.system(cadena_limpiar_consola)
-            input("Gracias por utilizar esta aplicación. Presione Enter para finalizar... ")
+            limpiar_consola()
             mostrar_menu = False
+            input(Fore.CYAN + Style.BRIGHT + "Gracias por utilizar esta aplicación. Presione Enter para finalizar... " + Fore.RESET + Style.RESET_ALL)
         else:
             input("Opción incorrecta. Presione Enter para volver al menu... ")
 
-    os.system(cadena_limpiar_consola)
+    limpiar_consola()
 
 main()            

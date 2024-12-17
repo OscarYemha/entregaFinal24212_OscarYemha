@@ -1,6 +1,9 @@
 import sqlite3
+from colorama import *
 
 ruta_db = "entregaFinal_OscarYemha/inventario.db"
+
+init() # Se inicia colorama
 
 # Función que crea la tabla "productos" si no existe
 def crear_tabla_productos_dt():
@@ -162,7 +165,7 @@ def buscar_producto_por_categoria_db(categoria)-> list:
 
     return lista_productos
 
-# # Función que busca los productos de la tabla según sea menor o igual a una cantidad recibida por parámetro. Retorna una lista si se encuentra o None si no lo hace
+# Función que busca los productos de la tabla según sea menor o igual a una cantidad recibida por parámetro. Retorna una lista si se encuentra o None si no lo hace
 def buscar_producto_por_baja_cantidad_db(cantidad)-> list:
     lista_productos = None
 
@@ -182,6 +185,7 @@ def buscar_producto_por_baja_cantidad_db(cantidad)-> list:
 
     return lista_productos
 
+# Función que busca las categorías guardadas en la base y las retorna en una lista
 def mostrar_categorias_db()-> list:
     categorias = None
 
