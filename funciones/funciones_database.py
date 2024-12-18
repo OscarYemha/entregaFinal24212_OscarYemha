@@ -1,7 +1,7 @@
 import sqlite3
 from colorama import *
 
-ruta_db = "entregaFinal_OscarYemha/inventario.db"
+ruta_db = "inventario.db"
 
 init() # Se inicia colorama
 

@@ -1,3 +1,5 @@
+from funciones.funciones_database import *
+
 # Valida que la cadena de caracteres ingresada sea sólo de letras. Una vez que así sea, se retorna la cadena.
 def validar_cadena(cadena_recibida: str, mensaje_error: str)-> str:
     cadena_retornada = cadena_recibida.split()
@@ -35,3 +37,13 @@ def validar_numero_flotante(numero_recibido: str, mensaje_error: str, minimo: fl
             numero_retornado = input(mensaje_error)
 
     return numero_retornado
+
+# Función que valida si hay productos cargados en la base de datos
+def validar_productos_cargados_en_db()-> bool:
+    productos_cargados_db = False
+
+    lista_productos = obtener_productos_db()
+    if lista_productos[0]:
+        productos_cargados_db = True
+
+    return productos_cargados_db

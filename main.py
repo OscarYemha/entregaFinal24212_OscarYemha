@@ -13,7 +13,7 @@ def main():
     crear_tabla_productos_dt() # Se crea la tabla si no existe
     
     while mostrar_menu:
-        limpiar_consola()
+        limpiar_consola_menu()
         
         # Se muestra el menú y la función regresa la opción ingresada
         opcion_seleccionada = mostrar_menu_opciones()
@@ -31,12 +31,12 @@ def main():
         elif opcion_seleccionada == "6":
             buscar_producto_por_baja_cantidad_menu()
         elif opcion_seleccionada == "7":
-            limpiar_consola()
+            limpiar_consola_menu()
             mostrar_menu = False
             input(Fore.CYAN + Style.BRIGHT + "Gracias por utilizar esta aplicación. Presione Enter para finalizar... " + Fore.RESET + Style.RESET_ALL)
         else:
             input("Opción incorrecta. Presione Enter para volver al menu... ")
 
-    limpiar_consola()
+    limpiar_consola_menu()
 
 main()            
