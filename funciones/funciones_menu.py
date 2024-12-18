@@ -146,7 +146,7 @@ def actualizar_cantidad_producto_menu(opcion_seleccionada: str, minimo: int):
             opcion_actualizar_cantidad = input(Back.RED + Fore.WHITE + Style.BRIGHT + "¿Está seguro que quiere modificar la cantidad del producto seleccionado? S/N " + Back.RESET + Fore.RESET + Style.RESET_ALL).lower()
             if opcion_actualizar_cantidad == "s":
                 limpiar_consola_menu()
-                cantidad_nueva = validar_numero_entero(input(f"{producto_encontrado[1]} --> Cantidad actual: {producto_encontrado[4]}\nIngrese la nueva cantidad: "), "Error. Ingrese la cantidad del producto: ", minimo)
+                cantidad_nueva = validar_numero_entero(input(f"{producto_encontrado[1]} --> Cantidad actual: {producto_encontrado[4]}\n\nIngrese la nueva cantidad: "), "Error. Ingrese la cantidad del producto: ", minimo)
                 producto_actualizado = actualizar_cantidad_producto_db(id, cantidad_nueva)
 
         # Se informa si se eliminó o no el producto y se pregunta si se quiere seguir actualizando
@@ -155,7 +155,7 @@ def actualizar_cantidad_producto_menu(opcion_seleccionada: str, minimo: int):
             print(Fore.CYAN + Style.BRIGHT + f"La cantidad del producto ({producto_encontrado[1]}) fue actualizada " + Fore.RESET + Style.RESET_ALL)
         else:
             limpiar_consola_menu()
-            print(Back.RED + Fore.WHITE + Style.BRIGHT + f"\nEl producto no pudo ser encontrado " + Back.RESET + Fore.RESET + Style.RESET_ALL)
+            print(Back.RED + Fore.WHITE + Style.BRIGHT + f"\El producto no pudo ser encontrado " + Back.RESET + Fore.RESET + Style.RESET_ALL)
 
         # Se pregunta si se quiere actualizar la cantidad de otro producto
         opcion_seguir_actualizando_cantidad = input("\n¿Desea modificar la cantidad de otro producto? S/N:  ")
@@ -188,9 +188,14 @@ def buscar_producto_menu():
                 print(tabulate([productos_obtenidos], headers = encabezados, tablefmt = 'fancy_grid'))
             else:
                 limpiar_consola_menu()
-                print(Back.RED + Fore.WHITE + Style.BRIGHT + f"\nEl producto con Id = {id} no pudo ser encontrado" + Back.RESET + Fore.RESET + Style.RESET_ALL)
+                print(Back.RED + Fore.WHITE + Style.BRIGHT + f"El producto con Id = {id} no pudo ser encontrado" + Back.RESET + Fore.RESET + Style.RESET_ALL)
         elif opcion_elegida == "2":
-            nombre = input("Ingrese el nombre a buscar: ").capitalize()
+
+            lista_nombres = mostrar_nombres_db()
+            lista_nombres_sin_duplicados = list(set(lista_nombres))
+            print(tabulate(lista_nombres_sin_duplicados, headers = [Style.BRIGHT + "Lista de NOMBRES" + Style.RESET_ALL], tablefmt = "fancy_grid"))
+
+            nombre = input("\nIngrese el nombre a buscar: ").capitalize()
             productos_obtenidos = buscar_producto_por_nombre_db(nombre)
 
             if productos_obtenidos[0]:
@@ -199,12 +204,12 @@ def buscar_producto_menu():
                 print(tabulate(productos_obtenidos[0], headers = productos_obtenidos[1], tablefmt="fancy_grid"))
             else:
                 limpiar_consola_menu()
-                print(Back.RED + Fore.WHITE + Style.BRIGHT + f"\nEl producto con nombre = {nombre} no pudo ser encontrado" + Back.RESET + Fore.RESET + Style.RESET_ALL)
+                print(Back.RED + Fore.WHITE + Style.BRIGHT + f"\El producto con nombre = {nombre} no pudo ser encontrado" + Back.RESET + Fore.RESET + Style.RESET_ALL)
         elif opcion_elegida == "3":
             # Se muestran las categorías guardadas para que el usuario busque por las categorías guardadas
             lista_categorias = mostrar_categorias_db()
             lista_categorias_sin_duplicados = list(set(lista_categorias))
-            print(tabulate(lista_categorias_sin_duplicados, headers = [Style.BRIGHT + "CATEGORÍAS" + Style.RESET_ALL], tablefmt = "fancy_grid"))
+            print(tabulate(lista_categorias_sin_duplicados, headers = [Style.BRIGHT + "Lista de CATEGORÍAS" + Style.RESET_ALL], tablefmt = "fancy_grid"))
 
             categoria = input("\nIngrese la categoría a buscar: ").capitalize()
             productos_obtenidos = buscar_producto_por_categoria_db(categoria)
@@ -215,7 +220,7 @@ def buscar_producto_menu():
                 print(tabulate(productos_obtenidos[0], headers = productos_obtenidos[1], tablefmt="fancy_grid"))
             else:
                 limpiar_consola_menu()
-                print(Back.RED + Fore.WHITE + Style.BRIGHT + f"\nEl producto con categoría = {categoria} no pudo ser encontrado" + Back.RESET + Fore.RESET + Style.RESET_ALL)
+                print(Back.RED + Fore.WHITE + Style.BRIGHT + f"El producto con categoría = {categoria} no pudo ser encontrado" + Back.RESET + Fore.RESET + Style.RESET_ALL)
                 
         else:
             print(Back.RED + Fore.WHITE + Style.BRIGHT + "Opción no válida" + Back.RESET + Fore.RESET + Style.RESET_ALL)

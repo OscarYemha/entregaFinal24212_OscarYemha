@@ -185,7 +185,24 @@ def buscar_producto_por_baja_cantidad_db(cantidad)-> list:
 
     return lista_productos
 
-# Función que busca las categorías guardadas en la base y las retorna en una lista
+# Función que busca los nombres guardados en la base de datos y las retorna en una lista
+def mostrar_nombres_db()-> list:
+    nombres = None
+
+    try:
+        conexion = sqlite3.connect(ruta_db)
+        cursor = conexion.cursor()
+        query = "SELECT Nombre FROM productos"
+        cursor.execute(query)
+        nombres = cursor.fetchall()
+    except sqlite3.Error as error:
+        print(f"Productos no encontrados: {error}")
+    finally:
+        conexion.close()
+
+    return nombres
+
+# Función que busca las categorías guardadas en la base de datos y las retorna en una lista
 def mostrar_categorias_db()-> list:
     categorias = None
 
