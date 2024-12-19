@@ -4,8 +4,11 @@ from tabulate import tabulate
 from colorama import *
 import os
 
+# Se inicia colorama.
+init() 
 
-# Función que verifica el sistema operativo para limpiar la consola y generar una mejor experiencia visual al usuario
+
+# Función que verifica el sistema operativo para limpiar la consola y generar una mejor experiencia visual al usuario.
 def limpiar_consola_menu():
     sistema_operativo_utilizado = os.name
     cadena_limpiar_consola_menu = ""
@@ -16,10 +19,7 @@ def limpiar_consola_menu():
 
     os.system(cadena_limpiar_consola_menu)
 
-
-init() # Se inicia colorama
-
-# Función que muestra el menú de opciones y retorna la opción ingresada
+# Función que muestra el menú de opciones y retorna la opción ingresada.
 def mostrar_menu_opciones()-> str:
 
     
@@ -32,8 +32,8 @@ def mostrar_menu_opciones()-> str:
 
     return opcion_seleccionada
 
-# Función que agrega un producto a la base de datos. Recibe la cantidad mínima y el precio mínimo por parámetros para el producto a agregar
-def agregar_producto_menu(minima_cantidad: int, minimo_precio: float):
+# Función que agrega un producto a la base de datos. Recibe la cantidad mínima y el precio mínimo por parámetros para el producto a agregar.
+def agregar_producto_menu(minima_cantidad: int = 1, minimo_precio: float = 0.01):
     producto_cargado = False
 
     # Se piden los datos y se validan los mismos
@@ -68,37 +68,38 @@ def agregar_producto_menu(minima_cantidad: int, minimo_precio: float):
     opcion_seguir_cargando_producto = input("\n¿Desea cargar otro producto? S/N: ")
     if opcion_seguir_cargando_producto == "s":
         limpiar_consola_menu()
-        agregar_producto_menu()
+        agregar_producto_menu(minima_cantidad, minimo_precio)
 
-# Función que muestra los productos cargados en la base de datos. Si no hay productos cargados aún, se informa tal situación
-# Recibe la opción seleccionada en el menú por parámetro
-# Según la opción recibida, puede devolver una cadena o puede no retornar nada
-def mostrar_productos_menu(opcion_seleccionada: str)-> None|str:
+# Función que muestra los productos cargados en la base de datos. Si no hay productos cargados aún, se informa tal situación.
+# Recibe la opción seleccionada en el menú por parámetro.
+# Según la opción recibida, puede devolver una cadena o puede no retornar nada.
+def mostrar_productos_menu(opcion_recibida: str)-> None|str:
     lista_productos = obtener_productos_db()
 
     valor_retornado = None
     
-    if validar_productos_cargados_en_db(): # Se muestran los productos
-        print(tabulate(lista_productos[0], headers = lista_productos[1], tablefmt="fancy_grid"), "\n")
-        if opcion_seleccionada == "2": # Si la opción seleccionada antes en el menú es 2, se vuelve al menú
+    if validar_productos_cargados_en_db(): 
+        print(tabulate(lista_productos[0], headers = lista_productos[1], tablefmt="fancy_grid"), "\n") # Se muestran los productos.
+        if opcion_recibida == "2": # Si la opción seleccionada antes en el menú es 2, se vuelve al menú.
             input("Presione Enter para volver al menú... ")
-        elif opcion_seleccionada == "3": # Si la opción seleccionada antes en el menú es 3, se prosigue con la actualización de la cantidad de un producto
+        elif opcion_recibida == "3": # Si la opción seleccionada antes en el menú es 3, se prosigue a pedir el Id de un producto para la actualización de su cantidad.
             valor_retornado = input("Ingrese el Id del producto a actualizar la cantidad: ")
-        elif opcion_seleccionada == "4": # Si la opción seleccionada antes en el menú es 4, se prosigue con la eliminación de un producto
+        elif opcion_recibida == "4": # Si la opción seleccionada antes en el menú es 4, se prosigue a pedir el Id de un producto para la eliminación del mismo.
             valor_retornado = input("Ingrese el Id del producto a eliminar: ")
     else:
         input(Back.RED + Fore.WHITE + Style.BRIGHT + "Aún no se han cargado productos. Presione Enter para continuar... " + Back.RESET + Fore.RESET + Style.RESET_ALL)
 
     return valor_retornado
 
-# Función que elimina un producto. Recibe la opción seleccionada en el menú por parámetro
-def eliminar_producto_menu(opcion_seleccionada: str):
-    # Se inicializan variables para luego saber si se ha encontrado y eliminado el producto
+# Función que elimina un producto. Recibe la opción seleccionada en el menú por parámetro.
+# Retorna True si se eliminó el producto o False en caso contrario.
+def eliminar_producto_menu(opcion_seleccionada: str)-> bool:
+    # Se inicializan variables para luego saber si se ha encontrado y eliminado el producto.
     producto_encontrado = False
     producto_eliminado = False
 
     if validar_productos_cargados_en_db():
-    # Se muestran los productos cargados y se pide el Id del producto a eliminar
+    # Se muestran los productos cargados y se pide el Id del producto a eliminar.
         id = mostrar_productos_menu(opcion_seleccionada)
 
         # Se busca el producto por el Id ingresado
@@ -111,7 +112,7 @@ def eliminar_producto_menu(opcion_seleccionada: str):
             if opcion_eliminar == "s":
                 producto_eliminado = eliminar_producto_db(id)
 
-        # Se informa si se eliminó o no el producto y se pregunta si se quiere seguir eliminando        
+        # Se informa si se eliminó o no el producto y se pregunta si se quiere seguir eliminando.       
         if producto_eliminado:
             limpiar_consola_menu()
             print(Fore.CYAN + Style.BRIGHT + f"\nEl producto({producto_encontrado[1]}) fue eliminado " + Fore.RESET + Style.RESET_ALL)
@@ -119,7 +120,7 @@ def eliminar_producto_menu(opcion_seleccionada: str):
             limpiar_consola_menu()
             print(Back.RED + Fore.WHITE + Style.BRIGHT + f"\nEl producto no pudo ser eliminado " + Back.RESET + Fore.RESET + Style.RESET_ALL)
 
-        # Se pregunta si se quiere eliminar otro producto
+        # Se pregunta si se quiere eliminar otro producto.
         opcion_seguir_eliminando_producto = input("\n¿Desea eliminar otro producto? S/N: ")
         if opcion_seguir_eliminando_producto == "s":
             limpiar_consola_menu()
@@ -127,17 +128,20 @@ def eliminar_producto_menu(opcion_seleccionada: str):
     else:
         input(Back.RED + Fore.WHITE + Style.BRIGHT + "Aún no se han cargado productos. Presione Enter para continuar... " + Back.RESET + Fore.RESET + Style.RESET_ALL)
 
-# Función que actualiza la cantidad de un producto. Recibe la opción seleccionada en el menú por parámetro y la cantidad mínima que puede tener el producto
-def actualizar_cantidad_producto_menu(opcion_seleccionada: str, minimo: int):
-    # Se inicializan variables para luego saber si se ha encontrado y actualizado el producto
+    return producto_eliminado
+
+# Función que actualiza la cantidad de un producto. Recibe la opción seleccionada en el menú por parámetro y la cantidad mínima que puede tener el producto.
+# Retorna True si se actualizó el producto o False en caso contrario.
+def actualizar_cantidad_producto_menu(opcion_seleccionada: str, minimo: int)-> bool:
+    # Se inicializan variables para luego saber si se ha encontrado y actualizado el producto.
     producto_encontrado = False
     producto_actualizado = False
     
     if validar_productos_cargados_en_db():
-    # Se muestran los productos cargados y se pide el Id del producto a actualizar
+    # Se muestran los productos cargados y se pide el Id del producto a actualizar.
         id = mostrar_productos_menu(opcion_seleccionada)
 
-        # Se busca el producto por el Id ingresado
+        # Se busca el producto por el Id ingresado.
         producto_encontrado = buscar_producto_por_id_db(id)
 
         # Si el producto se encuentra, se pregunta si se quiere actualizar o no.
@@ -149,7 +153,7 @@ def actualizar_cantidad_producto_menu(opcion_seleccionada: str, minimo: int):
                 cantidad_nueva = validar_numero_entero(input(f"{producto_encontrado[1]} --> Cantidad actual: {producto_encontrado[4]}\n\nIngrese la nueva cantidad: "), "Error. Ingrese la cantidad del producto: ", minimo)
                 producto_actualizado = actualizar_cantidad_producto_db(id, cantidad_nueva)
 
-        # Se informa si se eliminó o no el producto y se pregunta si se quiere seguir actualizando
+        # Se informa si se eliminó o no el producto y se pregunta si se quiere seguir actualizando.
         if producto_actualizado:
             limpiar_consola_menu()
             print(Fore.CYAN + Style.BRIGHT + f"La cantidad del producto ({producto_encontrado[1]}) fue actualizada " + Fore.RESET + Style.RESET_ALL)
@@ -157,7 +161,7 @@ def actualizar_cantidad_producto_menu(opcion_seleccionada: str, minimo: int):
             limpiar_consola_menu()
             print(Back.RED + Fore.WHITE + Style.BRIGHT + f"\El producto no pudo ser encontrado " + Back.RESET + Fore.RESET + Style.RESET_ALL)
 
-        # Se pregunta si se quiere actualizar la cantidad de otro producto
+        # Se pregunta si se quiere actualizar la cantidad de otro producto.
         opcion_seguir_actualizando_cantidad = input("\n¿Desea modificar la cantidad de otro producto? S/N:  ")
         if opcion_seguir_actualizando_cantidad == "s":
             limpiar_consola_menu()
@@ -165,22 +169,24 @@ def actualizar_cantidad_producto_menu(opcion_seleccionada: str, minimo: int):
     else:
         input(Back.RED + Fore.WHITE + Style.BRIGHT + "Aún no se han cargado productos. Presione Enter para continuar... " + Back.RESET + Fore.RESET + Style.RESET_ALL)
 
-# Función que busca un producto por Id, Nombre o Categoría
+    return producto_actualizado
+
+# Función que busca un producto por Id, Nombre o Categoría.
 def buscar_producto_menu():
     
     if validar_productos_cargados_en_db():
         opcion_elegida = input("Para buscar por Id ingrese 1.\nPara buscar por Nombre ingrese 2.\nPara buscar por Categoría ingrese 3.\n\nIngrese la opción: ")
 
-        # Se inicializa una variable donde luego se guardarán los productos obtenidos si se los encuentra
+        # Se inicializa una variable donde luego se guardarán los productos obtenidos si se los encuentra.
         productos_obtenidos = None
         limpiar_consola_menu()
 
-        # De acuerdo a la opción seleccionada, se busca por Id, Nombre o Categoría
+        # De acuerdo a la opción seleccionada, se busca por Id, Nombre o Categoría.
         if opcion_elegida == "1":
             id = int(input("Ingrese el Id a buscar: "))
             productos_obtenidos = buscar_producto_por_id_db(id)
 
-            # Si se encuentran productos, se muestran en una tabla
+            # Si se encuentran productos, se muestran en una tabla.
             if productos_obtenidos:
                 limpiar_consola_menu()
                 print("Se encontró lo siguiente: ")
@@ -190,7 +196,7 @@ def buscar_producto_menu():
                 limpiar_consola_menu()
                 print(Back.RED + Fore.WHITE + Style.BRIGHT + f"El producto con Id = {id} no pudo ser encontrado" + Back.RESET + Fore.RESET + Style.RESET_ALL)
         elif opcion_elegida == "2":
-
+            # Se muestran los nombres guardados para que el usuario ingrese y busque por las nombres guardados. Se eliminan las duplicaciones.
             lista_nombres = mostrar_nombres_db()
             lista_nombres_sin_duplicados = list(set(lista_nombres))
             print(tabulate(lista_nombres_sin_duplicados, headers = [Style.BRIGHT + "Lista de NOMBRES" + Style.RESET_ALL], tablefmt = "fancy_grid"))
@@ -206,7 +212,7 @@ def buscar_producto_menu():
                 limpiar_consola_menu()
                 print(Back.RED + Fore.WHITE + Style.BRIGHT + f"\El producto con nombre = {nombre} no pudo ser encontrado" + Back.RESET + Fore.RESET + Style.RESET_ALL)
         elif opcion_elegida == "3":
-            # Se muestran las categorías guardadas para que el usuario busque por las categorías guardadas
+            # Se muestran las categorías guardadas para que el usuario ingrese y busque por las categorías guardadas. Se eliminan las duplicaciones.
             lista_categorias = mostrar_categorias_db()
             lista_categorias_sin_duplicados = list(set(lista_categorias))
             print(tabulate(lista_categorias_sin_duplicados, headers = [Style.BRIGHT + "Lista de CATEGORÍAS" + Style.RESET_ALL], tablefmt = "fancy_grid"))
@@ -225,7 +231,7 @@ def buscar_producto_menu():
         else:
             print(Back.RED + Fore.WHITE + Style.BRIGHT + "Opción no válida" + Back.RESET + Fore.RESET + Style.RESET_ALL)
 
-        # Se pregunta si se quiere volver a buscar
+        # Se pregunta si se quiere volver a buscar.
         opcion_seguir_buscando = input("\n¿Desea volver a buscar otro producto? S/N: ").lower()
         if opcion_seguir_buscando == "s":
             limpiar_consola_menu()
@@ -233,11 +239,11 @@ def buscar_producto_menu():
     else:
         input(Back.RED + Fore.WHITE + Style.BRIGHT + "Aún no se han cargado productos. Presione Enter para continuar... " + Back.RESET + Fore.RESET + Style.RESET_ALL)
 
-# Función que busca los productos que tienen un stock menor o igual al ingresado por el usuario
+# Función que busca los productos que tienen un stock menor o igual al ingresado por el usuario.
 def buscar_producto_por_baja_cantidad_menu():
 
     if validar_productos_cargados_en_db():
-        # Se pide el stock a buscar
+        # Se pide el stock a buscar.
         cantidad_indicada = int(input("Buscar productos con un stock menor o igual a: "))
         productos_obtenidos = buscar_producto_por_baja_cantidad_db(cantidad_indicada)
     
@@ -249,7 +255,7 @@ def buscar_producto_por_baja_cantidad_menu():
         else:
             print(Back.RED + Fore.WHITE + Style.BRIGHT + f"No se han encontrado productos con un stock menor o igual a {cantidad_indicada}" + Back.RESET + Fore.RESET + Style.RESET_ALL)
         
-        # Se pregunta si se quiere seguir buscando
+        # Se pregunta si se quiere seguir buscando.
         opcion_seguir_buscando = input("\n¿Desea volver a buscar? S/N: ")
         if opcion_seguir_buscando == "s":
             limpiar_consola_menu()

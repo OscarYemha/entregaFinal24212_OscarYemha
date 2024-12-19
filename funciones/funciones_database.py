@@ -1,11 +1,12 @@
 import sqlite3
 from colorama import *
 
-ruta_db = "inventario.db"
+RUTA_DB = "entregaFinal_OscarYemha/inventario.db" # Se declara como constante la ruta para la base de datos.
 
-init() # Se inicia colorama
+# Se inicia colorama.
+init()
 
-# Función que crea la tabla "productos" si no existe
+# Función que crea la tabla "productos" si no existe.
 def crear_tabla_productos_dt():
     try:
         conexion = sqlite3.connect(ruta_db)
@@ -24,7 +25,7 @@ def crear_tabla_productos_dt():
     finally:
         conexion.close()
 
-# Función que agrega un producto nuevo a la tabla recibido por parámetro y retorna un booleano indicando True si se agregó o False si no se agregó
+# Función que agrega un producto nuevo a la tabla recibido por parámetro y retorna un booleano indicando True si se agregó o False si no se agregó.
 def insertar_producto_dt(producto)-> bool:
     producto_insertado = False
 
@@ -49,9 +50,9 @@ def insertar_producto_dt(producto)-> bool:
     
     return producto_insertado
 
-# Función que recupera todos los datos guardados en la tabla y los retorna en una lista
+# Función que recupera todos los datos guardados en la tabla y los retorna en una lista si se encuentran o una lista vacía si no lo hace.
 def obtener_productos_db()-> list:
-    lista_productos = None
+    lista_productos = []
 
     try:
         conexion = sqlite3.connect(ruta_db)
@@ -68,9 +69,9 @@ def obtener_productos_db()-> list:
 
     return lista_productos
 
-# Función que busca un producto de la tabla por Id recibido por parámetro y retorna una tupla si se encuentra o None si no lo hace
+# Función que busca un producto de la tabla por Id recibido por parámetro y retorna una tupla si se encuentra o una tupla si no lo hace.
 def buscar_producto_por_id_db(id)-> tuple:
-    producto = None
+    producto = ()
 
     try:
         conexion = sqlite3.connect(ruta_db)
@@ -86,7 +87,7 @@ def buscar_producto_por_id_db(id)-> tuple:
 
     return producto
 
-# Función que recibe un Id por parámetro para buscar un producto y lo elimina si se encuentra. Retorna True si se elimina o False en caso contrario
+# Función que recibe un Id por parámetro para buscar un producto y lo elimina si se encuentra. Retorna True si se elimina o False en caso contrario.
 def eliminar_producto_db(id)-> bool:
     producto_eliminado = False
 
@@ -125,9 +126,9 @@ def actualizar_cantidad_producto_db(id, cantidad_nueva)-> bool:
 
     return producto_actualizado
 
-# Función que busca un producto de la tabla por el nombre recibido por parámetro y retorna una lista si se encuentra o None si no lo hace
+# Función que busca un producto de la tabla por el nombre recibido por parámetro y retorna una lista si se encuentra o una lista vacía si no lo hace.
 def buscar_producto_por_nombre_db(nombre)-> list:
-    lista_productos = None
+    lista_productos = []
 
     try:
         conexion = sqlite3.connect(ruta_db)
@@ -145,9 +146,9 @@ def buscar_producto_por_nombre_db(nombre)-> list:
 
     return lista_productos
 
-# Función que busca un producto de la tabla por la categoría recibida por parámetro y retorna una lista si se encuentra o None si no lo hace
+# Función que busca un producto de la tabla por la categoría recibida por parámetro y retorna una lista si se encuentra o una lista vacía si no lo hace.
 def buscar_producto_por_categoria_db(categoria)-> list:
-    lista_productos = None
+    lista_productos = []
 
     try:
         conexion = sqlite3.connect(ruta_db)
@@ -165,9 +166,9 @@ def buscar_producto_por_categoria_db(categoria)-> list:
 
     return lista_productos
 
-# Función que busca los productos de la tabla según sea menor o igual a una cantidad recibida por parámetro. Retorna una lista si se encuentra o None si no lo hace
+# Función que busca los productos de la tabla según sea menor o igual a una cantidad recibida por parámetro. Retorna una lista si se encuentra o una lista vacía si no lo hace.
 def buscar_producto_por_baja_cantidad_db(cantidad)-> list:
-    lista_productos = None
+    lista_productos = []
 
     try:
         conexion = sqlite3.connect(ruta_db)
@@ -185,9 +186,9 @@ def buscar_producto_por_baja_cantidad_db(cantidad)-> list:
 
     return lista_productos
 
-# Función que busca los nombres guardados en la base de datos y las retorna en una lista
+# Función que busca los nombres guardados en la base de datos y las retorna en una lista si se encuentran. Caso contrario, se retorna una lista vacía.
 def mostrar_nombres_db()-> list:
-    nombres = None
+    nombres = []
 
     try:
         conexion = sqlite3.connect(ruta_db)
@@ -202,9 +203,9 @@ def mostrar_nombres_db()-> list:
 
     return nombres
 
-# Función que busca las categorías guardadas en la base de datos y las retorna en una lista
+# Función que busca las categorías guardadas en la base de datos y las retorna en una lista si se encuentran. Caso contrario, se retorna una lista vacía.
 def mostrar_categorias_db()-> list:
-    categorias = None
+    categorias = []
 
     try:
         conexion = sqlite3.connect(ruta_db)
